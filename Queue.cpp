@@ -66,7 +66,7 @@ public:
         return x;
     }
 
-    int peek()
+    int front()
     {
         if (isEmpty())
         {
@@ -76,21 +76,26 @@ public:
         return arr[Front];
     }
 
-    int size()
+    int queueSize()
     {
         return counter;
     }
 
     bool isEmpty()
     {
-        return (size() == 0);
+        return (queueSize() == 0);
     }
 
     bool isFull()
     {
-        return (size() == capacity);
+        return (queueSize() == capacity);
     }
 
+    void print(){
+        for(int i =0;i < counter;i++){
+            cout<<"Element [ "<<i+1<<" ] -> "<<arr[i]<<endl;
+        }
+    }
 };
 
 
@@ -101,13 +106,14 @@ int main()
     q.enqueue(1);
     q.enqueue(2);
     q.enqueue(3);
+    q.print();
 
-    cout << "The Front element is " << q.peek() << endl;
+    cout << "The Front element is " << q.front() << endl;
     q.dequeue();
 
     q.enqueue(4);
 
-    cout << "The queue size is " << q.size() << endl;
+    cout << "The queue size is " << q.queueSize() << endl;
 
     q.dequeue();
     q.dequeue();
@@ -121,6 +127,5 @@ int main()
     {
         cout << "The queue is not empty\n";
     }
-
     return 0;
 }
