@@ -4,9 +4,10 @@ using namespace std;
 
 #define SIZE 1000  ///default capacity of a queue
 
+template<typename T>
 class Queue
 {
-    int *arr;
+    T *arr;
     int capacity;
     int Front;
     int End;
@@ -34,7 +35,7 @@ public:
         delete[] arr;
     }
 
-    void enqueue(int item)
+    void enqueue(T item)
     {
         if (isFull())
         {
@@ -101,7 +102,7 @@ public:
 
 int main()
 {
-    Queue q(5);
+    Queue<int> q(5);
 
     q.enqueue(1);
     q.enqueue(2);
