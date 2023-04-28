@@ -1,12 +1,12 @@
 #include <iostream>
 
 using namespace std;
-int length = 10;
+//int length = 10;
 class arrayListType
 {
     int *arr;
     int maxSize;
-    int length;
+    int length=0;
     int loc ;
 public:
     arrayListType(int size){
@@ -100,6 +100,7 @@ void arrayListType::insertAt(int index, int item)
         arr[index] = item;
         length++;
     }
+  //  cout<<length<<endl;
 }
 
 void arrayListType::retrieveAt(int index)
@@ -146,12 +147,6 @@ int main()
     lst.insert(6);*/
     lst.print();
     cout << lst.listSize();
-
-
-
-
-
-
 
 
     return 0;
