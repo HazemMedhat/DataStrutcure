@@ -1,11 +1,13 @@
 #include<iostream>
 using namespace std;
+
+template <class T>
 class doublyLinkedList
 {
 private:
     struct Node
     {
-        int item;
+        T item;
         Node* next;
         Node* prev;
     };
@@ -37,7 +39,7 @@ public:
         count = 0;
     }
 
-    void insertAtTail(int val)
+    void insertAtlast(T val)
     {
         Node* newNode = new Node;
         newNode->item = val;
@@ -52,16 +54,13 @@ public:
             newNode->prev = last;
             last->next = newNode;
             last = newNode;
-
-
-
         }
         count++;
     }
 
 
 
-    void insertAtHead(int item)
+    void insertAtfirst(T item)
     {
         Node*newNode = new Node;
         newNode->item = item;
@@ -82,7 +81,7 @@ public:
     }
 
 
-    void insertAt(int pos, int item)
+    void insertAt(int pos, T item)
     {
         if (pos < 0 || pos > count)
             cout << "Out Of Range ...!" << endl;
@@ -91,9 +90,9 @@ public:
             Node *newNode = new Node;
             newNode->item = item;
             if (pos == 0)
-                insertAtHead(item);
+                insertAtfirst(item);
             else if (pos == count)
-                insertAtTail(item);
+                insertAtlast(item);
             else
             {
                 Node *current = first;
@@ -112,11 +111,7 @@ public:
         }
     }
 
-    void insertAfter (Node *prev_node, int data){
-
-    }
-
-    void removeAtHead()
+    void removeAtfirst()
     {
         if (count == 0)
             cout << "Empty List" << endl;
@@ -145,11 +140,11 @@ public:
         }
         else if (pos == 0)
         {
-            removeAtHead();
+            removeAtfirst();
         }
         else if (pos == count - 1)
         {
-            removeAtTail();
+            removeAtlast();
         }
         else
         {
@@ -166,7 +161,7 @@ public:
         }
         count--;
     }
-    void  removeAtTail()
+    void  removeAtlast()
     {
         if (count == 0)
             cout << "Empty List" << endl;
@@ -197,7 +192,7 @@ public:
 
         if (first->item == item)//delete the first element, special case
         {
-            removeAtHead();
+            removeAtfirst();
             return;
         }
         else
@@ -216,7 +211,7 @@ public:
             }
             else if (current->next == NULL)
             {
-                removeAtTail();
+                removeAtlast();
                 return;
             }
 
@@ -253,8 +248,6 @@ public:
 
     }
 
-
-
     void backwardTraversal()
     {
         if (isEmpty())
@@ -273,19 +266,168 @@ public:
 
     }
 
+   void retrieveAt(int pos)
+    {
+        if (pos < 0 || pos > count)
+            cout << "Out Of Range ...!" << endl;
+        Node *current = first->next;
+        for (int i = 1; i < pos-1; i++)
+        {
+            current = current->next;
+        }
+       cout<<current->item<<endl;
+    }
 
+   void replaceAt(T n,int pos){
+       if (pos < 0 || pos > count)
+           cout << "Out Of Range ...!" << endl;
+       Node *current = first;
+       for (int i = 0; i < pos-1; i++)
+       {
+           current = current->next;
+       }
+       current->item=n;
+    }
+    bool isExist(T n){
+        Node *current = first;
+        while(current)
+        {
+            if(n==current->item)return true;
+            current = current->next;
+        }
+        return false;
+    }
+    bool isItemAtEqual(T n,int pos){
+        Node *current = first;
+        for (int i = 0; i < pos-1; i++)
+        {
+            current = current->next;
+        }
+        if(n==current->item)return true;
+        return false;
+    }
+    int size(){
+        return count;
+    }
+    void reverse(){
+        if(first != NULL) {
+            Node* prevNode = first;
+            Node* tempNode = first;
+            Node* curNode = first->next;
+
+            prevNode->next = NULL;
+            prevNode->prev = NULL;
+
+            while(curNode != NULL) {
+                tempNode = curNode->next;
+                curNode->next = prevNode;
+                prevNode->prev = curNode;
+                prevNode = curNode;
+                curNode = tempNode;
+            }
+            first = prevNode;
+        }
+    }
+    void swap(int node1, int node2) {
+
+        Node* temp = first;
+        int N = 0;
+        while(temp != NULL) {
+            N++;
+            temp = temp->next;
+        }
+
+        if(node1 < 1 || node1 > N || node2 < 1 || node2 > N)
+            return;
+
+        Node* pos1 = first;
+        Node* pos2 = first;
+        for(int i = 1; i < node1; i++) {
+            pos1 = pos1->next;
+        }
+        for(int i = 1; i < node2; i++) {
+            pos2 = pos2->next;
+        }
+
+        int val = pos1->item;
+        pos1->item = pos2->item;
+        pos2->item = val;
+    }
+
+    void insertAfter(T old, int element)
+    {
+         Node* newItem;
+        newItem=new Node;
+         Node* temp;
+        temp=first;
+        if(first==NULL)
+        {
+            cout<<"could not insert"<<endl;
+            return;
+        }
+        if(first==last)
+        {
+            if(first->item!=old)
+            {
+                cout<<"could not insert"<<endl;
+                return;
+            }
+            newItem->item=element;
+            first->next=newItem;
+            newItem->next=NULL;
+            first->prev=NULL;
+            newItem->prev=first;
+            last=newItem;
+            return;
+        }
+        if(last->item==element)
+        {
+            newItem->next=NULL;
+            newItem->prev=last;
+            last->next=newItem;
+            last=newItem;
+            return;
+        }
+        while(temp->item!=old)
+        {
+            temp=temp->next;
+            if(temp==NULL)
+            {
+                cout<<"Could not insert"<<endl;
+                cout<<"element not found"<<endl;
+                return;
+            }
+        }
+        newItem->next=temp->next;
+        newItem->prev=temp;
+        newItem->item=element;
+        temp->next->prev=newItem;
+        temp->next=newItem;
+    }
 };
 int main()
 {
-    doublyLinkedList dl;
+    doublyLinkedList<int> dl;
     dl.insertAt(0, 4);
     dl.insertAt(1, 6);
     dl.insertAt(2, 7);
-    dl.insertAtHead(2);
-    dl.insertAtTail(10);
+    dl.insertAtfirst(2);
+    dl.insertAtlast(10);
     dl.forwardTraversal();
     dl.remove(7);
+    dl.insertAfter(6,5);
+    dl.retrieveAt(2);
     dl.forwardTraversal();
+    dl.replaceAt(5,1);
+    dl.swap(2,3);
+    dl.forwardTraversal();
+    dl.reverse();
+    dl.forwardTraversal();
+    if(dl.isExist(5))cout<<"YES"<<endl;
+    else cout<<"No"<<endl;
+    if(dl.isItemAtEqual(10,4))cout<<"YES"<<endl;
+    else cout<<"No"<<endl;
+    cout<<dl.size()<<endl;
     dl.clear();
     dl.backwardTraversal();
 }
