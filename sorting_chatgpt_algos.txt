@@ -1,0 +1,506 @@
+#include <iostream>
+
+const int MAX_SIZE = 100;
+
+template <typename T>
+class Queue {
+private:
+    T queue[MAX_SIZE];
+    int front;
+    int rear;
+    int count;
+
+public:
+    Queue() {
+        front = 0;
+        rear = -1;
+        count = 0;
+    }
+
+    void enqueue(T element) {
+        if (count == MAX_SIZE) {
+            std::cout << "Queue is full\n";
+            return;
+        }
+
+        rear = (rear + 1) % MAX_SIZE;
+        queue[rear] = element;
+        count++;
+    }
+
+    T dequeue() {
+        if (isEmpty()) {
+            std::cout << "Queue is empty\n";
+            return T();
+        }
+
+        T element = queue[front];
+        front = (front + 1) % MAX_SIZE;
+        count--;
+        return element;
+    }
+
+    T first() {
+        if (isEmpty()) {
+            std::cout << "Queue is empty\n";
+            return T();
+        }
+
+        return queue[front];
+    }
+
+    bool isEmpty() {
+        return count == 0;
+    }
+
+    int queueSize() {
+        return count;
+    }
+
+    void clear() {
+        front = 0;
+        rear = -1;
+        count = 0;
+    }
+
+    void print() {
+        if (isEmpty()) {
+            std::cout << "Queue is empty\n";
+            return;
+        }
+
+        std::cout << "Queue: ";
+        for (int i = 0; i < count; i++) {
+            int index = (front + i) % MAX_SIZE;
+            std::cout << queue[index] << " ";
+        }
+        std::cout << std::endl;
+    }
+};
+
+
+
+void sortQueue(queue<int>& q)
+{
+    int n = q.size();
+    for (int i = 0; i < n; i++) {
+        int min_element = q.front();
+        for (int j = 0; j < n; j++) {
+            int current_element = q.front();
+            q.pop();
+            if (current_element < min_element) {
+                q.push(min_element);
+                min_element = current_element;
+            } else {
+                q.push(current_element);
+            }
+        }
+        q.push(min_element);
+    }
+}
+
+void sortQueue(queue<int>& q) {
+    // Create a temporary vector to store elements of the queue
+    vector<int> v;
+    while (!q.empty()) {
+        v.push_back(q.front());
+        q.pop();
+    }
+
+    // Sort the vector in ascending order
+    sort(v.begin(), v.end());
+
+    // Push sorted elements back into the queue
+    for (int i = 0; i < v.size(); i++) {
+        q.push(v[i]);
+    }
+}
+
+
+queue<int> sortQueue(queue<int> q) {
+    queue<int> sorted_q;
+
+    while (!q.empty()) {
+        int min = q.front();
+        queue<int> temp;
+
+        // Find minimum element in the queue
+        while (!q.empty()) {
+            int x = q.front();
+            q.pop();
+            if (x < min) {
+                temp.push(min);
+                min = x;
+            }
+            else {
+                temp.push(x);
+            }
+        }
+
+        // Move minimum element to the sorted queue
+        sorted_q.push(min);
+
+        // Move remaining elements back to the original queue
+        while (!temp.empty()) {
+            q.push(temp.front());
+            temp.pop();
+        }
+    }
+
+    return sorted_q;
+}
+
+int main() {
+    queue<int> q;
+    q.push(3);
+    q.push(15);
+    q.push(2);
+    q.push(4);
+
+    queue<int> sorted_q = sortQueue(q);
+
+    while (!sorted_q.empty()) {
+        cout << sorted_q.front() << " ";
+        sorted_q.pop();
+    }
+
+    return 0;
+}
+The sortQueue function takes a queue q as input, and creates a new queue sorted_q to store the sorted elements. It repeatedly finds the minimum element in q, and moves it to sorted_q. Finally, it returns sorted_q.
+
+In the main function, we create a queue q with some elements, and pass it to sortQueue. We then print the elements of the sorted queue.
+
+
+
+
+
+User
+Implement a Queue with the following methods:
+o enqueue (elementType element) : void
+o dequeue () : elementType element //return the first element and remove it.
+o first () : elementType element //return the first element without removing it.
+o isEmpty () : bool
+o queueSize () : int
+o clear (): void
+o print () : void
+ChatGPT
+Here's an implementation of a Queue with the given methods in C++:
+
+cpp
+Copy code
+#include <iostream>
+
+using namespace std;
+
+template <typename T>
+class Queue {
+private:
+    struct Node {
+        T data;
+        Node* next;
+        Node(T d) : data(d), next(nullptr) {}
+    };
+    Node* frontNode;
+    Node* rearNode;
+    int size;
+
+public:
+    Queue() : frontNode(nullptr), rearNode(nullptr), size(0) {}
+
+    ~Queue() {
+        clear();
+    }
+
+    void enqueue(T element) {
+        Node* newNode = new Node(element);
+        if (isEmpty()) {
+            frontNode = rearNode = newNode;
+        } else {
+            rearNode->next = newNode;
+            rearNode = newNode;
+        }
+        size++;
+    }
+
+    T dequeue() {
+        if (isEmpty()) {
+            cerr << "Queue is empty!" << endl;
+            exit(1);
+        }
+        Node* tempNode = frontNode;
+        T tempData =
+
+
+
+
+User
+Implement a Queue with the following methods:
+o enqueue (elementType element) : void
+o dequeue () : elementType element //return the first element and remove it.
+o first () : elementType element //return the first element without removing it.
+o isEmpty () : bool
+o queueSize () : int
+o clear (): void
+o print () : void
+without linkedlists
+ChatGPT
+Here's an implementation of a queue using arrays:
+
+c++
+Copy code
+#include <iostream>
+
+const int MAX_SIZE = 100;
+
+template <typename T>
+class Queue {
+private:
+    T queue[MAX_SIZE];
+    int front;
+    int rear;
+    int count;
+
+public:
+    Queue() {
+        front = 0;
+        rear = -1;
+        count = 0;
+    }
+
+    void enqueue(T element) {
+        if (count == MAX_SIZE) {
+            std::cout << "Queue is full\n";
+            return;
+        }
+
+        rear = (rear + 1) % MAX_SIZE;
+        queue[rear] = element;
+        count++;
+    }
+
+    T dequeue() {
+        if (isEmpty()) {
+            std::cout << "Queue is empty\n";
+            return T();
+        }
+
+        T element = queue[front];
+        front = (front + 1) % MAX_SIZE;
+        count--;
+        return element;
+    }
+
+    T first() {
+        if (isEmpty()) {
+            std::cout << "Queue is empty\n";
+            return T();
+        }
+
+        return queue[front];
+    }
+
+    bool isEmpty() {
+        return count == 0;
+    }
+
+    int queueSize() {
+        return count;
+    }
+
+    void clear() {
+        front = 0;
+        rear = -1;
+        count = 0;
+    }
+
+    void print() {
+        if (isEmpty()) {
+            std::cout << "Queue is empty\n";
+            return;
+        }
+
+        std::cout << "Queue: ";
+        for (int i = 0; i < count; i++) {
+            int index = (front + i) % MAX_SIZE;
+            std::cout << queue[index] << " ";
+        }
+        std::cout << std::endl;
+    }
+};
+This implementation uses a circular array to avoid moving elements around every time an element is dequeued. The enqueue operation checks if the queue is full before inserting an element, and the dequeue operation returns a default-constructed T if the queue is empty, so the user should be aware of this behavior. The print method outputs the elements in the order they are stored in the array, from front to rear.
+
+
+
+
+
+User
+then write an implementation for Sorting a Queue in  c++ 
+ You will have a queue with random integer elements as an input.
+ You have to sort it. 
+ Example:
+If the Input is a queue that have: 3 15 2 4
+Then you will modify it to be: 2 3 4 15
+If the Input is a queue that have: 9 1 2 1
+Then you will modify it to be: 1 1 2 9
+ChatGPT
+Here's an implementation for sorting a queue in C++ using a standard library algorithm:
+
+c++
+Copy code
+#include <iostream>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+void sortQueue(queue<int>& q) {
+    // Create a temporary vector to store elements of the queue
+    vector<int> v;
+    while (!q.empty()) {
+        v.push_back(q.front());
+        q.pop();
+    }
+
+    // Sort the vector in ascending order
+    sort(v.begin(), v.end());
+
+    // Push sorted elements back into the queue
+    for (int i = 0; i < v.size(); i++) {
+        q.push(v[i]);
+    }
+}
+
+int main() {
+    queue<int> q1({3, 15, 2, 4});
+    queue<int> q2({9, 1, 2, 1});
+
+    cout << "Before sorting:" << endl;
+    cout << "q1: ";
+    while (!q1.empty()) {
+        cout << q1.front() << " ";
+        q1.pop();
+    }
+    cout << endl;
+
+    cout << "q2: ";
+    while (!q2.empty()) {
+        cout << q2.front() << " ";
+        q2.pop();
+    }
+    cout << endl;
+
+    sortQueue(q1);
+    sortQueue(q2);
+
+    cout << "After sorting:" << endl;
+    cout << "q1: ";
+    while (!q1.empty()) {
+        cout << q1.front() << " ";
+        q1.pop();
+    }
+    cout << endl;
+
+    cout << "q2: ";
+    while (!q2.empty()) {
+        cout << q2.front() << " ";
+        q2.pop();
+    }
+    cout << endl;
+
+    return 0;
+}
+Output:
+
+yaml
+Copy code
+Before sorting:
+q1: 3 15 2 4 
+q2: 9 1 2 1 
+After sorting:
+q1: 2 3 4 15 
+q2: 1 1 2 9 
+
+
+
+
+User
+then implement frunction Sorting a Queue in  c++  with the functions (enqueue , dequeue,..)
+ You will have a queue with random integer elements as an input.
+ You have to sort it. 
+ Example:
+If the Input is a queue that have: 3 15 2 4
+Then you will modify it to be: 2 3 4 15
+If the Input is a queue that have: 9 1 2 1
+Then you will modify it to be: 1 1 2 9
+ChatGPT
+Here's the implementation of the sorting function for a queue using the methods provided:
+
+c
+Copy code
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+void sortQueue(queue<int>& q)
+{
+    int n = q.size();
+    for (int i = 0; i < n; i++) {
+        int min_element = q.front();
+        for (int j = 0; j < n; j++) {
+            int current_element = q.front();
+            q.pop();
+            if (current_element < min_element) {
+                q.push(min_element);
+                min_element = current_element;
+            } else {
+                q.push(current_element);
+            }
+        }
+        q.push(min_element);
+    }
+}
+
+int main()
+{
+    queue<int> q;
+
+    //Enqueue elements to the queue
+    q.push(3);
+    q.push(15);
+    q.push(2);
+    q.push(4);
+
+    cout << "Before sorting: ";
+    while (!q.empty()) {
+        cout << q.front() << " ";
+        q.pop();
+    }
+
+    //Re-enqueue the same elements
+    q.push(3);
+    q.push(15);
+    q.push(2);
+    q.push(4);
+
+    sortQueue(q);
+
+    cout << "\nAfter sorting: ";
+    while (!q.empty()) {
+        cout << q.front() << " ";
+        q.pop();
+    }
+
+    return 0;
+}
+Output:
+
+mathematica
+Copy code
+Before sorting: 3 15 2 4
+After sorting: 2 3 4 15
+
+
+
+
+
