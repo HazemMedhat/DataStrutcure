@@ -1,2 +1,6 @@
 # DataStrutcure
-stack / Queue / different implementations of linked list
+stack 
+Queue 
+Single linked list 
+Doubly linked list 
+Circular linked list
